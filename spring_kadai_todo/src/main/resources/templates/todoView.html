@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToDoリスト</title>
+</head>
+<body>
+    <h2>タスク登録フォーム</h2>
+    <form th:action="@{/register}" method="post">
+        <label for="title">タイトル</label>
+        <input type="text" id="title" name="title" th:value="${title}"><br>
+        <label for="priority">優先度</label>
+        <select id="priority" name="priority">
+			<option value="高" th:selected="${priority == 高}">高</option>
+            <option value="中" th:selected="${priority == 中}">中</option>
+            <option value="低" th:selected="${priority == 低}">低</option>
+        </select><br>
+        <label for="status">ステータス</label>
+        <select id="status" name="status">
+            <option value="1" th:selected="${status == 1}">着手中</option>
+            <option value="2" th:selected="${status == 2}">未着手</option>
+            </select>
+        <button type="submit">登録</button>
+    </form>
+    <p th:if="${successMessage}" th:text="${successMessage}" style="color: green;"></p>
+    <p th:if="${failureMessage}" th:text="${failureMessage}" style="color: red;"></p>
+    <h2>ToDoリスト</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>タイトル</th>
+                <th>優先度</th>
+                <th>ステータス</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="todo : ${todos}">
+                <td th:text="${todo.getId()}"></td>
+                <td th:text="${todo.getTitle()}"></td>
+                <td>
+                    <span th:if="${todo.getPriority() == 高}">高</span>
+                    <span th:if="${todo.getPriority() == 中}">中</span>
+                    <span th:if="${todo.getPriority() == 低}">低</span>
+                </td>
+                <td>
+                    <span th:if="${todo.getStatus() == 1}">着手中</span>
+                    <span th:if="${todo.getStatus() == 2}">未着手</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
